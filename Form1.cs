@@ -907,9 +907,9 @@ namespace _3D_Cube
 
             }
 
-            for (int i = 0; i < (ListOfFaces.Count - 1); )
+            for (int i = 0; i < ListOfFaces.Count; )
             {
-                for (int j = 0; j < (ListOfFaces[i].Count - 1);)
+                for (int j = 0; j < ListOfFaces[i].Count;)
                 {
                     if (ListOfFaces[i][j] == ListOfFaces[i][ListOfFaces[i].Count - 1])
                     {
