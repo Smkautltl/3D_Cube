@@ -1,4 +1,6 @@
-﻿namespace _3D_Cube
+﻿using System;
+
+namespace _3D_Cube
 {
     class _3DPoint
     {
@@ -24,9 +26,16 @@
             Z = inputz;
         }
 
+        public _3DPoint(string inputx, string inputy, string inputz)
+        {
+            X = Convert.ToSingle(inputx) * 100;
+            Y = Convert.ToSingle(inputy) * 100;
+            Z = Convert.ToSingle(inputz) * 100;
+        }
+
         public override string ToString()
         {
-            string print = "[" + X + ", " + Y + ", " + Z  + "]\n";
+            string print = "[" + X + ", " + Y + ", " + Z  + "]";
             return print;
         }
     }

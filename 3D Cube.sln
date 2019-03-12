@@ -8,6 +8,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{12469CD4-9370-422E-95D8-F8C46F253BED}"
 	ProjectSection(SolutionItems) = preProject
 		3D Models\Cube.obj = 3D Models\Cube.obj
+		3D Models\Monkey.obj = 3D Models\Monkey.obj
+		3D Models\Ring.obj = 3D Models\Ring.obj
 	EndProjectSection
 EndProject
 Global

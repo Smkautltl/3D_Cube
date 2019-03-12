@@ -26,7 +26,7 @@ namespace _3D_Cube
 
             //Maths
             _3DPoint[] points;
-            int size = 150;
+            int size = 100;
             float[,] _projection = new float[2, 3]
         {
             {1, 0, 0},
@@ -42,6 +42,8 @@ namespace _3D_Cube
 
             //Others
             private int ShapeNum = 0;
+            private List<List<string>> ListOfFaces = new List<List<string>>();
+            private List<_3DPoint> ImportedVertices = new List<_3DPoint>();
              
         //--------------------------------------------------------------------------
 
@@ -103,6 +105,10 @@ namespace _3D_Cube
 
                     case 4:
                         DrawOctohedron();
+                        break;
+
+                    case 5:
+                        DrawImported();
                         break;
 
                 }
@@ -800,6 +806,130 @@ namespace _3D_Cube
             ConnectPoints(3, 5, Projected, 0);
 
         }
+        void DrawImported()
+        {
+            float[,] rotationX =
+            {
+                {1,0, 0},
+                {0, Convert.ToSingle(Math.Cos(AngleX)), Convert.ToSingle(-Math.Sin(AngleX))},
+                {0, Convert.ToSingle(Math.Sin(AngleX)), Convert.ToSingle(Math.Cos(AngleX))}
+
+            };
+            float[,] rotationAutoX =
+            {
+                {1,0, 0},
+                {0, Convert.ToSingle(Math.Cos(AutoAngleX)), Convert.ToSingle(-Math.Sin(AutoAngleX))},
+                {0, Convert.ToSingle(Math.Sin(AutoAngleX)), Convert.ToSingle(Math.Cos(AutoAngleX))}
+
+            };
+
+            float[,] rotationZ =
+            {
+                {Convert.ToSingle(Math.Cos(AngleZ)), Convert.ToSingle(-Math.Sin(AngleZ)), 0},
+                {Convert.ToSingle(Math.Sin(AngleZ)), Convert.ToSingle(Math.Cos(AngleZ)), 0},
+                {0, 0, 1}
+            };
+            float[,] rotationAutoZ =
+            {
+                {Convert.ToSingle(Math.Cos(AutoAngleZ)), Convert.ToSingle(-Math.Sin(AutoAngleZ)), 0},
+                {Convert.ToSingle(Math.Sin(AutoAngleZ)), Convert.ToSingle(Math.Cos(AutoAngleZ)), 0},
+                {0, 0, 1}
+
+            };
+
+            float[,] rotationY =
+            {
+                {Convert.ToSingle(Math.Cos(AngleY)), 0, Convert.ToSingle(-Math.Sin(AngleY))},
+                {0, 1, 0},
+                {Convert.ToSingle(Math.Sin(AngleY)), 0, Convert.ToSingle(Math.Cos(AngleY))}
+
+            };
+            float[,] rotationAutoY =
+            {
+                {Convert.ToSingle(Math.Cos(AutoAngleY)), 0, Convert.ToSingle(-Math.Sin(AutoAngleY))},
+                {0, 1, 0},
+                {Convert.ToSingle(Math.Sin(AutoAngleY)), 0, Convert.ToSingle(Math.Cos(AutoAngleY))}
+
+            };
+
+            _3DPoint[] Projected = new _3DPoint[ImportedVertices.Count];
+
+            int index = 0;
+            foreach (var i in ImportedVertices)
+            {
+                _3DPoint rotated = i;
+
+                if (AutoXTick.Checked)
+                {
+                    rotated = Matrix.MatrixMultiply(rotationAutoX, rotated);
+                    try
+                    {
+                        AutoAngleX += Convert.ToDouble(XNum.Text) / 1000000;
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+
+                }
+                if (AutoYTick.Checked)
+                {
+                    rotated = Matrix.MatrixMultiply(rotationAutoY, rotated);
+                    try
+                    {
+                        AutoAngleY += Convert.ToDouble(YNum.Text) / 1000000;
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+                }
+                if (AutoZTick.Checked)
+                {
+                    rotated = Matrix.MatrixMultiply(rotationAutoZ, rotated);
+                    try
+                    {
+                        AutoAngleZ += Convert.ToDouble(ZNum.Text) / 1000000;
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+                }
+
+                rotated = Matrix.MatrixMultiply(rotationY, rotated);
+                rotated = Matrix.MatrixMultiply(rotationX, rotated);
+                rotated = Matrix.MatrixMultiply(rotationZ, rotated);
+                _3DPoint projected2D = Matrix.MatrixMultiply(_projection, rotated);
+
+                Projected[index] = projected2D;
+                index++;
+
+            }
+
+            for (int i = 0; i < (ListOfFaces.Count - 1); )
+            {
+                for (int j = 0; j < (ListOfFaces[i].Count - 1);)
+                {
+                    if (ListOfFaces[i][j] == ListOfFaces[i][ListOfFaces[i].Count - 1])
+                    {
+                        int PointA = Convert.ToInt16(ListOfFaces[i][j]);
+                        int PointB = Convert.ToInt16(ListOfFaces[i][0]);
+                        ImportedConnectPoints(PointA, PointB, Projected, 0);
+                    }
+                    else
+                    {
+                        int PointA = Convert.ToInt16(ListOfFaces[i][j]);
+                        int PointB = Convert.ToInt16(ListOfFaces[i][j + 1]);
+                        ImportedConnectPoints(PointA, PointB, Projected, 0);
+                    }
+
+                    j++;
+                }
+
+                i++;
+            }
+        }
 
         void ConnectPoints(int i, int j, _3DPoint[] points, int colour)
         {
@@ -855,7 +985,60 @@ namespace _3D_Cube
             }
             */
         }
+        void ImportedConnectPoints(int i, int j, _3DPoint[] points, int colour)
+        {
+            Point a = new Point(0, 0);
+            Point b = new Point(0, 0);
 
+            a.X = Convert.ToInt32(points[i - 1].X);
+            a.Y = Convert.ToInt32(points[i - 1].Y);
+
+            b.X = Convert.ToInt32(points[j - 1].X);
+            b.Y = Convert.ToInt32(points[j - 1].Y);
+
+            _gr.DrawLine(Pens.White, a, b);
+
+            /*  switch (colour)
+                {
+                    case 1:
+                        _gr.DrawLine(Pens.White, a, b);
+                        break;
+                    case 2:
+                        _gr.DrawLine(Pens.Red, a, b);
+                        break;
+                    case 3:
+                        _gr.DrawLine(Pens.Yellow, a, b);
+                        break;
+                    case 4:
+                        _gr.DrawLine(Pens.Green, a, b);
+                        break;
+                    case 5:
+                        _gr.DrawLine(Pens.Blue, a, b);
+                        break;
+                    case 6:
+                        _gr.DrawLine(Pens.Indigo, a, b);
+                        break;
+                    case 7:
+                        _gr.DrawLine(Pens.Violet, a, b);
+                        break;
+                    case 8:
+                        _gr.DrawLine(Pens.LawnGreen, a, b);
+                        break;
+                    case 9:
+                        _gr.DrawLine(Pens.DeepSkyBlue, a, b);
+                        break;
+                    case 10:
+                        _gr.DrawLine(Pens.DarkRed, a, b);
+                        break;
+                    case 11:
+                        _gr.DrawLine(Pens.DarkGray, a, b);
+                        break;
+                    case 12:
+                        _gr.DrawLine(Pens.LightGray, a, b);
+                        break;
+                }
+                */
+        }
         void FpsCounter()
         {
             if(_tSec == DateTime.Now.Second && _isRunning)
@@ -1019,7 +1202,98 @@ namespace _3D_Cube
 
         void Read_objfile(string filename)
         {
+            ImportedVertices = null;
+            ImportedVertices = new List<_3DPoint>();
+
+            ListOfFaces = null;
+            ListOfFaces = new List<List<string>>();
+
             Lastopenedfile.Text = filename;
+
+            StreamReader sr = new StreamReader(filename);
+
+            do
+            {
+                string line = sr.ReadLine();
+
+                string vX = "";
+                string vY = "";
+                string vZ = "";
+
+                List<string> facenumbers = new List<string>();
+
+                int axisSwitch = 0;
+                int faceSwitch = -1;
+
+                for (int i = 0; i < line.Length; i++)
+                {
+                    if (line[0] == '#' || line[0] == 'o' || line[0] == 's')
+                    {
+                        
+                    }
+                    else if (line[0] == 'v')
+                    {
+                        if (line[i] == 'v')
+                        {
+                            
+                        }
+                        else if(line[i] == ' ')
+                        {
+                            axisSwitch++;
+                        }
+                        else
+                        {
+                            switch (axisSwitch)
+                            {
+                                case 1:
+                                    vX += line[i];
+                                    break;
+
+                                case 2:
+                                    vY += line[i];
+                                    break;
+
+                                case 3:
+                                    vZ += line[i];
+                                    break;
+                            }
+                        }
+                    }
+                    else if (line[0] == 'f')
+                    {
+                        if (line[i] == 'f')
+                        {
+                            
+                        }
+                        else if (line[i] == ' ')
+                        {
+                            faceSwitch++;
+                            facenumbers.Add("");
+                        }
+                        else
+                        {
+                            facenumbers[faceSwitch] += line[i];
+                        }
+                    }
+                }
+
+                if (line[0] == 'v')
+                {
+                    ImportedVertices.Add(new _3DPoint(vX,vY,vZ));
+                }
+
+                if (line[0] == 'f')
+                {
+                    ListOfFaces.Add(facenumbers);
+                }
+
+
+            } while (!sr.EndOfStream);
+
+            sr.Close();
+
+            ShapeNum = 5;
+
         }
     }
 }
