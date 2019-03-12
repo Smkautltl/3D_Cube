@@ -54,6 +54,7 @@
             this.PyramidButton = new System.Windows.Forms.Button();
             this.SqrPyramid = new System.Windows.Forms.Button();
             this.Dodecohedron = new System.Windows.Forms.Button();
+            this.Octahedron = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -300,12 +301,26 @@
             this.Dodecohedron.UseVisualStyleBackColor = true;
             this.Dodecohedron.Click += new System.EventHandler(this.Dodecohedron_Click);
             // 
+            // Octahedron
+            // 
+            this.Octahedron.FlatAppearance.BorderSize = 0;
+            this.Octahedron.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Octahedron.ForeColor = System.Drawing.Color.White;
+            this.Octahedron.Location = new System.Drawing.Point(818, 178);
+            this.Octahedron.Name = "Octahedron";
+            this.Octahedron.Size = new System.Drawing.Size(80, 41);
+            this.Octahedron.TabIndex = 22;
+            this.Octahedron.Text = "Octahedron";
+            this.Octahedron.UseVisualStyleBackColor = true;
+            this.Octahedron.Click += new System.EventHandler(this.Octahedron_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(911, 761);
+            this.Controls.Add(this.Octahedron);
             this.Controls.Add(this.Dodecohedron);
             this.Controls.Add(this.SqrPyramid);
             this.Controls.Add(this.PyramidButton);
@@ -367,6 +382,7 @@
         private System.Windows.Forms.Button PyramidButton;
         private System.Windows.Forms.Button SqrPyramid;
         private System.Windows.Forms.Button Dodecohedron;
+        private System.Windows.Forms.Button Octahedron;
     }
 }
 

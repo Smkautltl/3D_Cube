@@ -1,6 +1,7 @@
 ﻿//Copyright 2018 - Matthew Pye 
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -93,8 +94,13 @@ namespace _3D_Cube
                     case 2:
                         DrawSqrPyramid();
                         break;
+
                     case 3:
                         DrawDodechedron();
+                        break;
+
+                    case 4:
+                        DrawOctohedron();
                         break;
 
                 }
@@ -541,7 +547,171 @@ namespace _3D_Cube
 
             };
 
-            _3DPoint[] Projected = new _3DPoint[512];
+            _3DPoint[] Projected = new _3DPoint[20];
+            List<_3DPoint> Vertices = MakeDodecahedron(size);
+
+            int index = 0;
+            foreach (var i in Vertices)
+            {
+                _3DPoint rotated = i;
+
+                if (AutoXTick.Checked)
+                {
+                    rotated = Matrix.MatrixMultiply(rotationAutoX, rotated);
+                    try
+                    {
+                        AutoAngleX += Convert.ToDouble(XNum.Text) / 10000;
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+
+                }
+                if (AutoYTick.Checked)
+                {
+                    rotated = Matrix.MatrixMultiply(rotationAutoY, rotated);
+                    try
+                    {
+                        AutoAngleY += Convert.ToDouble(YNum.Text) / 10000;
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+                }
+                if (AutoZTick.Checked)
+                {
+                    rotated = Matrix.MatrixMultiply(rotationAutoZ, rotated);
+                    try
+                    {
+                        AutoAngleZ += Convert.ToDouble(ZNum.Text) / 10000;
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+                }
+
+                rotated = Matrix.MatrixMultiply(rotationY, rotated);
+                rotated = Matrix.MatrixMultiply(rotationX, rotated);
+                rotated = Matrix.MatrixMultiply(rotationZ, rotated);
+                _3DPoint projected2D = Matrix.MatrixMultiply(_projection, rotated);
+
+                Projected[index] = projected2D;
+
+                //_gr.DrawString(index.ToString(), Font, Brushes.Red, Projected[index].X, Projected[index].Y);
+
+                index++;
+            }
+
+            /*
+            int PickColour = 0;
+            for (int i = 0; i < 4; i++)
+            {
+                PickColour++;
+                ConnectPoints(i, (i + 1) % 4, Projected, PickColour);
+
+                PickColour++;
+                ConnectPoints(i + 4, ((i + 1) % 4) + 4, Projected, PickColour);
+
+                PickColour++;
+                ConnectPoints(i, i + 4, Projected, PickColour);
+            }
+            */
+
+            ConnectPoints(17, 12, Projected, 0);
+            ConnectPoints(12, 18, Projected, 0);
+            ConnectPoints(18, 16, Projected, 0);
+            ConnectPoints(16, 19, Projected, 0);
+            ConnectPoints(19, 17, Projected, 0);
+            
+            ConnectPoints(2, 7, Projected, 0);                    
+            ConnectPoints(7, 9, Projected, 0);                    
+            ConnectPoints(9, 6, Projected, 0);                    
+            ConnectPoints(6, 8, Projected, 0);                    
+            ConnectPoints(8, 2, Projected, 0);
+
+            ConnectPoints(11, 14, Projected, 0);
+            ConnectPoints(14, 17, Projected, 0);
+            ConnectPoints(17, 12, Projected, 0);
+            ConnectPoints(12, 13, Projected, 0);
+            ConnectPoints(13, 11, Projected, 0);
+
+            ConnectPoints(14, 5, Projected, 0);
+            ConnectPoints(5, 15, Projected, 0);
+            ConnectPoints(15, 19, Projected, 0);
+            ConnectPoints(19, 17, Projected, 0);
+            ConnectPoints(17, 14, Projected, 0);
+
+            ConnectPoints(15, 9, Projected, 0);
+            ConnectPoints(9, 6, Projected, 0);
+            ConnectPoints(6, 16, Projected, 0);
+            ConnectPoints(16, 19, Projected, 0);
+            ConnectPoints(19, 15, Projected, 0);
+
+            ConnectPoints(3, 2, Projected, 0);
+            ConnectPoints(4, 1, Projected, 0);
+            ConnectPoints(13, 0, Projected, 0);
+            ConnectPoints(0, 10, Projected, 0);
+            ConnectPoints(10, 18, Projected, 0);
+
+            ConnectPoints(10, 8, Projected, 0);
+            ConnectPoints(0, 3, Projected, 0);
+            ConnectPoints(3, 1, Projected, 0);
+            ConnectPoints(1, 11, Projected, 0);
+            ConnectPoints(7, 4, Projected, 0);
+
+            ConnectPoints(4, 5, Projected, 0);
+
+        }
+        void DrawOctohedron()
+        {
+            float[,] rotationX =
+            {
+                {1,0, 0},
+                {0, Convert.ToSingle(Math.Cos(AngleX)), Convert.ToSingle(-Math.Sin(AngleX))},
+                {0, Convert.ToSingle(Math.Sin(AngleX)), Convert.ToSingle(Math.Cos(AngleX))}
+
+            };
+            float[,] rotationAutoX =
+            {
+                {1,0, 0},
+                {0, Convert.ToSingle(Math.Cos(AutoAngleX)), Convert.ToSingle(-Math.Sin(AutoAngleX))},
+                {0, Convert.ToSingle(Math.Sin(AutoAngleX)), Convert.ToSingle(Math.Cos(AutoAngleX))}
+
+            };
+
+            float[,] rotationZ =
+            {
+                {Convert.ToSingle(Math.Cos(AngleZ)), Convert.ToSingle(-Math.Sin(AngleZ)), 0},
+                {Convert.ToSingle(Math.Sin(AngleZ)), Convert.ToSingle(Math.Cos(AngleZ)), 0},
+                {0, 0, 1}
+            };
+            float[,] rotationAutoZ =
+            {
+                {Convert.ToSingle(Math.Cos(AutoAngleZ)), Convert.ToSingle(-Math.Sin(AutoAngleZ)), 0},
+                {Convert.ToSingle(Math.Sin(AutoAngleZ)), Convert.ToSingle(Math.Cos(AutoAngleZ)), 0},
+                {0, 0, 1}
+
+            };
+
+            float[,] rotationY =
+            {
+                {Convert.ToSingle(Math.Cos(AngleY)), 0, Convert.ToSingle(-Math.Sin(AngleY))},
+                {0, 1, 0},
+                {Convert.ToSingle(Math.Sin(AngleY)), 0, Convert.ToSingle(Math.Cos(AngleY))}
+
+            };
+            float[,] rotationAutoY =
+            {
+                {Convert.ToSingle(Math.Cos(AutoAngleY)), 0, Convert.ToSingle(-Math.Sin(AutoAngleY))},
+                {0, 1, 0},
+                {Convert.ToSingle(Math.Sin(AutoAngleY)), 0, Convert.ToSingle(Math.Cos(AutoAngleY))}
+
+            };
+
+            _3DPoint[] Projected = new _3DPoint[6];
 
             int index = 0;
             foreach (var i in points)
@@ -613,18 +783,19 @@ namespace _3D_Cube
 
 
             ConnectPoints(0, 1, Projected, 0);
-            ConnectPoints(1, 2, Projected, 0);
-            ConnectPoints(2, 3, Projected, 0);
+            ConnectPoints(1, 3, Projected, 0);
+            ConnectPoints(3, 2, Projected, 0);
+            ConnectPoints(2, 0, Projected, 0);
+
+            ConnectPoints(0, 4, Projected, 0);
+            ConnectPoints(1, 4, Projected, 0);
+            ConnectPoints(2, 4, Projected, 0);
             ConnectPoints(3, 4, Projected, 0);
 
-            ConnectPoints(4, 5, Projected, 0);
-            ConnectPoints(5, 6, Projected, 0);
-            ConnectPoints(7, 8, Projected, 0);
-            ConnectPoints(8, 9, Projected, 0);
-
-            ConnectPoints(9, 10, Projected, 0);
-            ConnectPoints(10, 11, Projected, 0);
-            ConnectPoints(11, 0, Projected, 0);          
+            ConnectPoints(0, 5, Projected, 0);
+            ConnectPoints(1, 5, Projected, 0);
+            ConnectPoints(2, 5, Projected, 0);
+            ConnectPoints(3, 5, Projected, 0);
 
         }
 
@@ -728,30 +899,32 @@ namespace _3D_Cube
         private void PyramidButton_Click(object sender, EventArgs e)
         {
             points = new _3DPoint[4];
-            points[0] = new _3DPoint(size, size/2, -size);
-            points[1] = new _3DPoint(-size, size/2, -size);
-            points[2] = new _3DPoint(0, size/2, size);
-            points[3] = new _3DPoint(0, -size/2, 0);
+            points[0] = new _3DPoint( 
+                                        ((8/9) * (8/9)) * size,
+                                        0, 
+                                        -((1/3) * size)
+                                    );
+
+            points[1] = new _3DPoint(
+                                        -(((2 / 9) * (2 / 9)) * size),
+                                        ((2 / 3) * (2 / 3)) * size, 
+                                        -((1 / 3) * size)
+                                    );
+
+            points[2] = new _3DPoint(
+                                        -(((2/9)*(2/9)) * size), 
+                                        -(((2/3)*(2/3)) * size), 
+                                        -((1/3) * size)
+                                    );
+
+            points[3] = new _3DPoint(0, 0, size);
             ShapeNum = 1;
         }
         private void Dodecohedron_Click(object sender, EventArgs e)
         {
-            points = new _3DPoint[12];
-
-            points[0] = new _3DPoint(0, size/2, size); 
-            points[1] = new _3DPoint(0, -size/2, size); 
-            points[2] = new _3DPoint(0, size/2, -size); 
-            points[3] = new _3DPoint(0, -size/2, -size); 
-            points[4] = new _3DPoint(size/2, size, 0); 
-            points[5] = new _3DPoint(-size/2, size, 0);
-            points[6] = new _3DPoint(size/2, -size, 0);
-            points[7] = new _3DPoint(-size/2, -size, 0);
-            points[8] = new _3DPoint(size, 0, size/2);
-            points[9] = new _3DPoint(-size, 0, size/2);
-            points[10] = new _3DPoint(size, 0, -size/2);
-            points[11] = new _3DPoint(-size, 0, -size/2);
 
             ShapeNum = 3;
+
         }
         private void SqrPyramid_Click(object sender, EventArgs e)
         {
@@ -762,6 +935,17 @@ namespace _3D_Cube
             points[3] = new _3DPoint(-size, size, size);
             points[4] = new _3DPoint(0, -size, 0);
             ShapeNum = 2;
+        }
+        private void Octahedron_Click(object sender, EventArgs e)
+        {
+            points = new _3DPoint[6];
+            points[0] = new _3DPoint(size, 0, -size);
+            points[1] = new _3DPoint(-size, 0, -size);
+            points[2] = new _3DPoint(size, 0, size);
+            points[3] = new _3DPoint(-size, 0, size);
+            points[4] = new _3DPoint(0, -size, 0);
+            points[5] = new _3DPoint(0, size, 0);
+            ShapeNum = 4;
         }
 
         private void hScrollBar3_Scroll(object sender, ScrollEventArgs e)
@@ -775,6 +959,50 @@ namespace _3D_Cube
         private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
         {
             AngleZ = hScrollBar1.Value/100f;
+        }
+
+        private static List<_3DPoint> MakeDodecahedron(double r)
+        {
+            // Calculate constants that will be used to generate vertices
+            var phi = (float)(Math.Sqrt(5) - 1) / 2; // The golden ratio
+
+            var a = 1 / Math.Sqrt(3);
+            var b = a / phi;
+            var c = a * phi;
+
+            // Generate each vertex
+            var vertices = new List<_3DPoint>();
+            foreach (var i in new[] { -1, 1 })
+            {
+                foreach (var j in new[] { -1, 1 })
+                {
+                    vertices.Add(new _3DPoint(
+                        0,
+                        Convert.ToSingle(i * c * r),
+                        Convert.ToSingle(j * b * r)
+                                             ));
+
+                    vertices.Add(new _3DPoint(
+                        Convert.ToSingle(i * c * r),
+                        Convert.ToSingle(j * b * r),
+                        0
+                                             ));
+
+                    vertices.Add(new _3DPoint(
+                        Convert.ToSingle(i * b * r),
+                        0,
+                        Convert.ToSingle(j * c * r)
+                                            ));
+
+                    foreach (var k in new[] { -1, 1 })
+                        vertices.Add(new _3DPoint(
+                            Convert.ToSingle(i * a * r),
+                            Convert.ToSingle(j * a * r),
+                            Convert.ToSingle(k * a * r)
+                                                ));
+                }
+            }
+            return vertices;
         }
     }
 }
