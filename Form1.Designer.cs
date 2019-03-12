@@ -55,6 +55,9 @@
             this.SqrPyramid = new System.Windows.Forms.Button();
             this.Dodecohedron = new System.Windows.Forms.Button();
             this.Octahedron = new System.Windows.Forms.Button();
+            this.Browse = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.Lastopenedfile = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -314,12 +317,43 @@
             this.Octahedron.UseVisualStyleBackColor = true;
             this.Octahedron.Click += new System.EventHandler(this.Octahedron_Click);
             // 
+            // Browse
+            // 
+            this.Browse.FlatAppearance.BorderSize = 0;
+            this.Browse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Browse.ForeColor = System.Drawing.Color.White;
+            this.Browse.Location = new System.Drawing.Point(818, 638);
+            this.Browse.Name = "Browse";
+            this.Browse.Size = new System.Drawing.Size(80, 41);
+            this.Browse.TabIndex = 23;
+            this.Browse.Text = "Browse";
+            this.Browse.UseVisualStyleBackColor = true;
+            this.Browse.Click += new System.EventHandler(this.Browse_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.DefaultExt = "obj";
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Title = "Open A .obj file";
+            // 
+            // Lastopenedfile
+            // 
+            this.Lastopenedfile.AutoSize = true;
+            this.Lastopenedfile.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lastopenedfile.Location = new System.Drawing.Point(11, 29);
+            this.Lastopenedfile.Name = "Lastopenedfile";
+            this.Lastopenedfile.Size = new System.Drawing.Size(14, 20);
+            this.Lastopenedfile.TabIndex = 24;
+            this.Lastopenedfile.Text = "-";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(911, 761);
+            this.Controls.Add(this.Lastopenedfile);
+            this.Controls.Add(this.Browse);
             this.Controls.Add(this.Octahedron);
             this.Controls.Add(this.Dodecohedron);
             this.Controls.Add(this.SqrPyramid);
@@ -383,6 +417,9 @@
         private System.Windows.Forms.Button SqrPyramid;
         private System.Windows.Forms.Button Dodecohedron;
         private System.Windows.Forms.Button Octahedron;
+        private System.Windows.Forms.Button Browse;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Label Lastopenedfile;
     }
 }
 

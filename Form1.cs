@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace _3D_Cube
@@ -41,6 +42,7 @@ namespace _3D_Cube
 
             //Others
             private int ShapeNum = 0;
+             
         //--------------------------------------------------------------------------
 
         public Form1()
@@ -948,6 +950,16 @@ namespace _3D_Cube
             ShapeNum = 4;
         }
 
+        private void Browse_Click(object sender, EventArgs e)
+        {
+            int size = -1;
+            DialogResult result = openFileDialog1.ShowDialog(); // Show the dialog.
+            if (result == DialogResult.OK) // Test result.
+            {
+                Read_objfile(openFileDialog1.FileName);             
+            }
+        }
+
         private void hScrollBar3_Scroll(object sender, ScrollEventArgs e)
         {
             AngleX = hScrollBar3.Value/100f;
@@ -1003,6 +1015,11 @@ namespace _3D_Cube
                 }
             }
             return vertices;
+        }
+
+        void Read_objfile(string filename)
+        {
+            Lastopenedfile.Text = filename;
         }
     }
 }
