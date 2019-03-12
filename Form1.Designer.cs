@@ -52,7 +52,8 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.CubeButton = new System.Windows.Forms.Button();
             this.PyramidButton = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.SqrPyramid = new System.Windows.Forms.Button();
+            this.Dodecohedron = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -265,7 +266,6 @@
             // 
             // PyramidButton
             // 
-            this.PyramidButton.Enabled = false;
             this.PyramidButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.PyramidButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PyramidButton.Location = new System.Drawing.Point(818, 46);
@@ -276,17 +276,29 @@
             this.PyramidButton.UseVisualStyleBackColor = true;
             this.PyramidButton.Click += new System.EventHandler(this.PyramidButton_Click);
             // 
-            // button2
+            // SqrPyramid
             // 
-            this.button2.Enabled = false;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(818, 80);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(80, 43);
-            this.button2.TabIndex = 20;
-            this.button2.Text = "Square Pyramid";
-            this.button2.UseVisualStyleBackColor = true;
+            this.SqrPyramid.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.SqrPyramid.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SqrPyramid.Location = new System.Drawing.Point(818, 80);
+            this.SqrPyramid.Name = "SqrPyramid";
+            this.SqrPyramid.Size = new System.Drawing.Size(80, 43);
+            this.SqrPyramid.TabIndex = 20;
+            this.SqrPyramid.Text = "Square Pyramid";
+            this.SqrPyramid.UseVisualStyleBackColor = true;
+            this.SqrPyramid.Click += new System.EventHandler(this.SqrPyramid_Click);
+            // 
+            // Dodecohedron
+            // 
+            this.Dodecohedron.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.Dodecohedron.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Dodecohedron.Location = new System.Drawing.Point(818, 129);
+            this.Dodecohedron.Name = "Dodecohedron";
+            this.Dodecohedron.Size = new System.Drawing.Size(80, 43);
+            this.Dodecohedron.TabIndex = 21;
+            this.Dodecohedron.Text = "Dodecahedron";
+            this.Dodecohedron.UseVisualStyleBackColor = true;
+            this.Dodecohedron.Click += new System.EventHandler(this.Dodecohedron_Click);
             // 
             // Form1
             // 
@@ -294,7 +306,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(911, 761);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.Dodecohedron);
+            this.Controls.Add(this.SqrPyramid);
             this.Controls.Add(this.PyramidButton);
             this.Controls.Add(this.CubeButton);
             this.Controls.Add(this.panel3);
@@ -352,7 +365,8 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button CubeButton;
         private System.Windows.Forms.Button PyramidButton;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button SqrPyramid;
+        private System.Windows.Forms.Button Dodecohedron;
     }
 }
 
