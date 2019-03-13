@@ -864,7 +864,14 @@ namespace _3D_Cube
                     rotated = Matrix.MatrixMultiply(rotationAutoX, rotated);
                     try
                     {
-                        AutoAngleX += Convert.ToDouble(XNum.Text) / 1000000;
+                        if (XNum.Text == "")
+                        {
+                            
+                        }
+                        else
+                        {
+                            AutoAngleX += Convert.ToDouble(XNum.Text) / 1000000;
+                        }                       
                     }
                     catch (Exception e)
                     {
@@ -877,7 +884,14 @@ namespace _3D_Cube
                     rotated = Matrix.MatrixMultiply(rotationAutoY, rotated);
                     try
                     {
-                        AutoAngleY += Convert.ToDouble(YNum.Text) / 1000000;
+                        if (YNum.Text == "")
+                        {
+                            
+                        }
+                        else
+                        {
+                            AutoAngleY += Convert.ToDouble(YNum.Text) / 1000000;
+                        }                       
                     }
                     catch (Exception e)
                     {
@@ -889,7 +903,14 @@ namespace _3D_Cube
                     rotated = Matrix.MatrixMultiply(rotationAutoZ, rotated);
                     try
                     {
-                        AutoAngleZ += Convert.ToDouble(ZNum.Text) / 1000000;
+                        if (ZNum.Text == "")
+                        {
+                            
+                        }
+                        else
+                        {
+                            AutoAngleZ += Convert.ToDouble(ZNum.Text) / 1000000;
+                        }                     
                     }
                     catch (Exception e)
                     {
